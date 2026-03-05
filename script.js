@@ -55,7 +55,7 @@ const renderProducts = (products) => {
             <img src=${product.img} alt="Hình ảnh của ${product.name}" />
             <h3>${product.name}</h3>
             <p class="price">${formatCurrency(product.price)}</p>
-            <button class="btn-add" id="btn-add-${product.id}">
+            <button onclick="handleAddToCart(${product.id})" class="btn-add" id="btn-add-${product.id}">
               Thêm vào giỏ
             </button>
         </div>
@@ -72,6 +72,9 @@ const renderCarts = (carts) => {
   if (Array.isArray(carts)) {
     // Kiểm tra xem trong giỏ hàng còn sản phẩm không?
     if (carts.length === 0) {
+      // Reset tổng tiền về
+      totalPriceElement.textContent = formatCurrency(0);
+
       cartListELement.innerHTML = `<li class="empty-msg">Chưa có món nào...</li>`;
       return;
     }
@@ -79,13 +82,13 @@ const renderCarts = (carts) => {
     // Render tổng tiền
     totalPriceElement.textContent = formatCurrency(caculatorTotal(carts));
 
-    const cartMaps = carts.map((cart) => {
+    const cartMaps = carts.map((cart, index) => {
       return `
         <li>
             <span class="cart-item-name">${cart.product.name} (${cart.quantity})</span>
             <div>
             <span class="cart-item-price">${formatCurrency(cart.product.price)}</span>
-            <button class="btn-remove">X</button>
+            <button onclick="handleRemoveItem(${index})" class="btn-remove">X</button>
             </div>
         </li>
       `;
@@ -94,6 +97,40 @@ const renderCarts = (carts) => {
     // Chuyển đổi từ mảng thành chuỗi và dán vào giao diện
     cartListELement.innerHTML = cartMaps.join("");
   }
+};
+
+// Hàm thêm sản phẩm vào giỏ hàng
+const handleAddToCart = (id) => {
+  // Tìm kiếm sản phẩm trong danh sách
+  const findProduct = products.find((product) => product.id === id);
+
+  // Kiểm tra xem sản phẩm có tồn tại trong danh sách không?
+  if (findProduct) {
+    // Tạo đối tượng cho cart
+    const newCart = {
+      id: carts.length + 1,
+      product: findProduct,
+      quantity: 1,
+    };
+
+    // Thêm phần tử newCart và mảng carts
+    carts.unshift(newCart);
+
+    //  + Gọi hàm để xem giao diện mới nhất
+    renderCarts(carts);
+  } else {
+    // + Nếu không sẽ thông báo không tìm thấy
+    alert("Không tìm thấy thông tin sản phẩm.");
+  }
+};
+
+// Hàm xóa sản phẩm khỏi giỏ hàng
+const handleRemoveItem = (index) => {
+  // Dùng hàm spice để xóa phần tử khỏi mảng
+  carts.splice(index, 1);
+
+  // Gọi hàm renderCarts để xem giao diện mới
+  renderCarts(carts);
 };
 
 renderProducts(products);
