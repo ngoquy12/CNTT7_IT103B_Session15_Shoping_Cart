@@ -86,9 +86,11 @@ const renderCarts = (carts) => {
       return `
         <li>
             <span class="cart-item-name">${cart.product.name} (${cart.quantity})</span>
+            <button onclick="handleIncreasement(${index})">+</button>
+            <button onclick="handleDecreasement(${index})">-</button>
             <div>
-            <span class="cart-item-price">${formatCurrency(cart.product.price)}</span>
-            <button onclick="handleRemoveItem(${index})" class="btn-remove">X</button>
+              <span class="cart-item-price">${formatCurrency(cart.product.price)}</span>
+              <button onclick="handleRemoveItem(${index})" class="btn-remove">X</button>
             </div>
         </li>
       `;
@@ -131,6 +133,30 @@ const handleRemoveItem = (index) => {
 
   // Gọi hàm renderCarts để xem giao diện mới
   renderCarts(carts);
+};
+
+//
+const handleIncreasement = (index) => {
+  // Truy cập vào quantity của sản phẩm trong giỏ hàng theo index
+  carts[index].quantity += 1;
+
+  // Gọi lại hàm renderCarts
+  renderCarts(carts);
+};
+
+const handleDecreasement = (index) => {
+  // Lấy ra số lượng hiện tại của sản phẩm trong giỏ hàng
+  const currentQuantity = carts[index].quantity;
+
+  if (currentQuantity === 1) {
+    handleRemoveItem(index);
+  } else {
+    // Truy cập vào quantity của sản phẩm trong giỏ hàng theo index
+    carts[index].quantity -= 1;
+
+    // Gọi lại hàm renderCarts
+    renderCarts(carts);
+  }
 };
 
 renderProducts(products);
