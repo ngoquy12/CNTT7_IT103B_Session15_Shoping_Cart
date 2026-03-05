@@ -106,24 +106,32 @@ const handleAddToCart = (id) => {
   // Tìm kiếm sản phẩm trong danh sách
   const findProduct = products.find((product) => product.id === id);
 
-  // Kiểm tra xem sản phẩm có tồn tại trong danh sách không?
-  if (findProduct) {
-    // Tạo đối tượng cho cart
-    const newCart = {
-      id: carts.length + 1,
-      product: findProduct,
-      quantity: 1,
-    };
+  const productIndex = carts.findIndex((cart) => cart.product.id === id);
 
-    // Thêm phần tử newCart và mảng carts
-    carts.unshift(newCart);
+  if (productIndex === -1) {
+    // Nếu chưa có thì tiến hành thêm vào
+    // Kiểm tra xem sản phẩm có tồn tại trong danh sách không?
+    if (findProduct) {
+      // Tạo đối tượng cho cart
+      const newCart = {
+        id: carts.length + 1,
+        product: findProduct,
+        quantity: 1,
+      };
 
-    //  + Gọi hàm để xem giao diện mới nhất
-    renderCarts(carts);
+      // Thêm phần tử newCart và mảng carts
+      carts.unshift(newCart);
+    } else {
+      // + Nếu không sẽ thông báo không tìm thấy
+      alert("Không tìm thấy thông tin sản phẩm.");
+    }
   } else {
-    // + Nếu không sẽ thông báo không tìm thấy
-    alert("Không tìm thấy thông tin sản phẩm.");
+    // Nếu đã có thì tiến hành tăng lên 1
+    carts[productIndex].quantity += 1;
   }
+
+  //  + Gọi hàm để xem giao diện mới nhất
+  renderCarts(carts);
 };
 
 // Hàm xóa sản phẩm khỏi giỏ hàng
