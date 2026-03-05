@@ -28,9 +28,20 @@ const carts = [
 
 const productListELement = document.querySelector("#product-list");
 const cartListELement = document.querySelector("#cart-list");
+const totalPriceElement = document.querySelector("#total-price");
 
 const formatCurrency = (price) => {
   return price.toLocaleString("it-IT", { style: "currency", currency: "VND" });
+};
+
+const caculatorTotal = (carts) => {
+  if (Array.isArray(carts)) {
+    const total = carts.reduce((prev, current) => {
+      return prev + current.product.price * current.quantity;
+    }, 0);
+
+    return total;
+  }
 };
 
 // Xây dựng các chức năng render dữ liệu
@@ -64,6 +75,9 @@ const renderCarts = (carts) => {
       cartListELement.innerHTML = `<li class="empty-msg">Chưa có món nào...</li>`;
       return;
     }
+
+    // Render tổng tiền
+    totalPriceElement.textContent = formatCurrency(caculatorTotal(carts));
 
     const cartMaps = carts.map((cart) => {
       return `
