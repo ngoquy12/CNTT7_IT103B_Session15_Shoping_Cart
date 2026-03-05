@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="form">
+      <input id="username" type="text" placeholder="Nhập họ và tên" />
+      <input id="email" type="text" placeholder="Nhập email" />
+
+      <i id="userValue"></i>
+
+      <button type="button">Đóng</button>
+      <button type="reset">Reset</button>
+      <button type="submit">Gửi</button>
+    </form>
+
+    <script>
+      // Lấy ra các phần tử HTML
+      const formElement = document.querySelector("#form");
+      const userNameInputElement = document.querySelector("#username");
+      const emailInputElement = document.querySelector("#email");
+      const userValueElement = document.querySelector("#userValue");
+      l;
+      userNameInputElement.addEventListener("input", (e) => {
+        userValueElement.textContent = e.target.value;
+      });
+
+      formElement.addEventListener("submit", (event) => {
+        event.preventDefault();
+        // Ngăn chặn sự kiện mặc định của form (load lại trang sau khi submit)
+
+        // Lấy ra giá trị của 2 ô input
+        console.log(userNameInputElement.value);
+        console.log(emailInputElement.value);
+
+        const user = {
+          username: userNameInputElement.value,
+          email: emailInputElement.value,
+        };
+      });
+    </script>
+  </body>
+</html>

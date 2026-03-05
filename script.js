@@ -156,7 +156,7 @@ const handleDecreasement = (index) => {
   // Lấy ra số lượng hiện tại của sản phẩm trong giỏ hàng
   const currentQuantity = carts[index].quantity;
 
-  if (currentQuantity === 1) {
+  if (currentQuantity === 0) {
     handleRemoveItem(index);
   } else {
     // Truy cập vào quantity của sản phẩm trong giỏ hàng theo index
